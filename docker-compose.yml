@@ -1,0 +1,31 @@
+version: '3.1'
+services:
+  app:
+    build: .
+    image: threetrack/myservice
+    container_name: myservice
+    hostname: myservice
+    depends_on:
+      - db
+      - db2
+    ports:
+      - "80:8080"
+    #  - "8080-8082:8080"
+    environment:
+      ACTUATOR_UPDATE_SCHEDULED: ${ACTUATOR_UPDATE_SCHEDULED}
+      SERVICE_IMPL: ${SERVICE_IMPL}
+      REPOSITORY_IMPL: ${REPOSITORY_IMPL}
+  db:
+    image: "redis:alpine"
+    hostname: db
+    ports:
+     - "6379:6379"
+  db2:
+    image: postgres
+    hostname: db2
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_PASSWORD: 123456
+    volumes:
+      - ./db-script:/docker-entrypoint-initdb.d
