@@ -15,17 +15,28 @@ services:
       ACTUATOR_UPDATE_SCHEDULED: ${ACTUATOR_UPDATE_SCHEDULED}
       SERVICE_IMPL: ${SERVICE_IMPL}
       REPOSITORY_IMPL: ${REPOSITORY_IMPL}
+
+      POSTGRESQL_USER: ${POSTGRESQL_USER}
+      POSTGRESQL_PASSWORD: ${POSTGRESQL_PASSWORD}
+      POSTGRESQL_DATABASE_NAME: ${POSTGRESQL_DATABASE_NAME}
+      POSTGRESQL_PORT: ${POSTGRESQL_PORT}
+      POSTGRESQL_HOST: ${POSTGRESQL_HOST}
   db:
     image: "redis:alpine"
+    container_name: db
     hostname: db
     ports:
      - "6379:6379"
   db2:
-    image: postgres
-    hostname: db2
-    restart: always
+    image: postgres:9.6
+    container_name: db2
+    hostname: ${POSTGRESQL_HOST}
+    #  restart: always
+    ports:
+      - "${POSTGRESQL_PORT}:5432"
     environment:
-      POSTGRES_PASSWORD: admin
-      POSTGRES_PASSWORD: 123456
+      POSTGRES_USER: ${POSTGRESQL_USER}
+      POSTGRES_PASSWORD: ${POSTGRESQL_PASSWORD}
+      POSTGRES_DB: ${POSTGRESQL_DATABASE_NAME}
     volumes:
       - ./db-script:/docker-entrypoint-initdb.d

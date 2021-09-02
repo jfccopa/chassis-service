@@ -1,8 +1,8 @@
 package com.threetrack.actuator;
 
+import com.threetrack.entity.Product;
+import com.threetrack.repository.postgress.ProductDao;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,20 +28,8 @@ public class Actuator {
 	public void monitoring() {
 		logger.info("monitoring >>>>");
 
-		if (!Actuator.healthTable.isEmpty()) {
-			Set<Entry<String, Integer>> values = Actuator.healthTable.entrySet();
-
-			StringBuilder stringBuilder = new StringBuilder();
-
-			// send bash
-			for (Entry<String, Integer> val : values) {
-				stringBuilder.append("\n" + val.getKey() + " " + val.getValue());
-			}
-			Actuator.healthTable.clear();
-
-			String s = stringBuilder.toString();
-
-			logger.info(s);
+		for (Product p : ProductDao.list()) {
+			logger.info(p.getProductId() + " " + p.getName());
 		}
 	}
 

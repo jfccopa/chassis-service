@@ -6,18 +6,18 @@ ENV			?= $(cat .env)
 
 .DEFAULT_GOAL := help
 
-run: # run the jar locally, without using docker
-	@export ENV
+run: ## run the jar locally, without using docker
+	## @export $(ENV)
 	@java -jar target/app.jar
 	
 build: ## Build and create excecutable
-	@./mvnw clean package -U -DskipTests=true
+	@./mvnw -T 4 clean package -U -DskipTests=true
 
 install: ## Executes mvn clean install to run the full maven lifecycle
-	@./mvnw clean install -U
+	@./mvnw -T 4 clean install -U
 
 fast-install: ## Same as install, but does execute tests or static analysis
-	@./mvnw clean install -U -DskipTests=true
+	@./mvnw -T 4 clean install -U -DskipTests=true
 
 up: ## Starts applications and dependencies
 	@docker-compose --project-name $(PROJECT_NAME) up -d --build
