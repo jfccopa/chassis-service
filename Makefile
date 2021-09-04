@@ -20,7 +20,8 @@ fast-install: ## Same as install, but does execute tests or static analysis
 	@./mvnw -T 4 clean install -U -DskipTests=true
 
 up: ## Starts applications and dependencies
-	@docker-compose --project-name $(PROJECT_NAME) up -d --build
+	##@docker-compose --project-name $(PROJECT_NAME) up -d --build
+	@docker-compose --project-name threetrack up -d --build
 
 logs: ## Shows applications and dependencies logs
 	@docker-compose --project-name $(PROJECT_NAME) logs -f
