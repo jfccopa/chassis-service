@@ -32,9 +32,13 @@ stop: ## stop
 	@docker-compose --project-name $(PROJECT_NAME) stop
 
 down: ## Shutsdown applications and dependencies
-	@docker-compose --project-name $(PROJECT_NAME) down || true
-	@docker-compose --project-name $(PROJECT_NAME) kill || true
-	@docker-compose --project-name $(PROJECT_NAME) rm -f || true
+    @docker-compose --project-name threetrack down
+	@docker-compose --project-name threetrack kill
+	@docker-compose --project-name threetrack rm -f
+
+	# @docker-compose --project-name $(PROJECT_NAME) down || true
+	# @docker-compose --project-name $(PROJECT_NAME) kill || true
+	# @docker-compose --project-name $(PROJECT_NAME) rm -f || true
 
 
 integration-test: ## Executes integration-tests from a docker container
