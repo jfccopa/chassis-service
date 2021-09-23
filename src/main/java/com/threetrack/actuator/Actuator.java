@@ -1,7 +1,10 @@
 package com.threetrack.actuator;
 
 import com.threetrack.entity.Product;
-import com.threetrack.repository.postgress.ProductDao;
+import com.threetrack.repository.ProductDao;
+import com.threetrack.repository.postgress.ProductDaoJpa;
+
+import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
@@ -20,6 +23,9 @@ public class Actuator {
 	private static Map<String, Integer> healthTable = new ConcurrentHashMap<>();
 
 	@Autowired
+	private ProductDao productDao;
+
+	@Autowired
 	public Actuator() {
 		logger.info("init actuator");
 	}
@@ -28,9 +34,19 @@ public class Actuator {
 	public void monitoring() {
 		logger.info("monitoring >>>>");
 
-		for (Product p : ProductDao.list()) {
-			logger.info(p.getProductId() + " " + p.getName());
+		for (Product p : productDao.list()) {
+			logger.info(p.getId() + " " + p.getName() + " " + p.getCreateDate());
 		}
+
+		Product p = new Product();
+		p.setName("new Product");
+		p.setDescription("");
+		p.setOrganizationId(0);
+		p.setCreateDate(new Date());
+		p.setCreateId(0);
+
+		productDao.add(p);
+
 	}
 
 	public static void appendUpdate(String account, Integer credits) {
