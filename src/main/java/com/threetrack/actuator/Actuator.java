@@ -37,16 +37,6 @@ public class Actuator {
 		for (Product p : productDao.list()) {
 			logger.info(p.getId() + " " + p.getName() + " " + p.getCreateDate());
 		}
-
-		Product p = new Product();
-		p.setName("new Product");
-		p.setDescription("");
-		p.setOrganizationId(0);
-		p.setCreateDate(new Date());
-		p.setCreateId(0);
-
-		productDao.add(p);
-
 	}
 
 	public static void appendUpdate(String account, Integer credits) {
