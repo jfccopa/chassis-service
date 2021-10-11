@@ -33,7 +33,7 @@ public class ProductService {
             product.setCreateDate(Timestamp.from(Instant.now()));
             product.setDeleted(false);
 
-            productDao.add(product);
+            productDao.add(product, 0);
 
             return true;
 
@@ -46,7 +46,7 @@ public class ProductService {
 
         try{
             product.setUpdateDate(Timestamp.from(Instant.now()));
-            productDao.update(product);
+            productDao.update(product, 0);
 
             return true;
 
@@ -58,7 +58,7 @@ public class ProductService {
     public boolean deleteProduct(Integer productId){
 
         try{
-            productDao.delete(productId);
+            productDao.delete(productId, 0);
             return true;
 
         }catch (Exception ex){

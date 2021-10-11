@@ -7,28 +7,27 @@ template to build web-service
 - java 11
 - docker
 - docker-compose >=3.1
-- make (optional)
 
-# build
+# Build
 
-## build **3track** java application (mvnw)
-```
-./mvnw -T 4 clean install -U -DskipTests=true
-```
+use **make** in linux and **./make** for windows
 
-## up **3track** project (docker-compose)
+### only build and run service
 ```
-docker-compose project-name 3track up -d --build
+make fast-install up
 ```
 
-## shutdown **3track** project (docker-compose)
+### init all applications
 ```
-docker-compose --project-name 3track down || true
-docker-compose --project-name 3track kill || true
-docker-compose --project-name 3track rm -f || true
+make start
 ```
 
-## using make
+### stop all applications
+```
+make stop
+```
+
+### rebuild and run all applications
 ```
 make down fast-install up
 ```

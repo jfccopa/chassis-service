@@ -24,7 +24,6 @@ public class CreditServiceImpl1 implements CreditService {
 			if (account != null) {
 				account.setCredits(account.getCredits() - 1);
 				accountRepository.update(account);
-				Actuator.appendUpdate(account.getAccountId(), account.getCredits());
 			}
 			return account;
 		}
@@ -36,7 +35,6 @@ public class CreditServiceImpl1 implements CreditService {
 			if (account != null) {
 				account.setCredits(account.getCredits() + 1);
 				accountRepository.update(account);
-				Actuator.appendUpdate(account.getAccountId(), account.getCredits());
 			}
 			return account;
 		}

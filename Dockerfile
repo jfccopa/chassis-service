@@ -3,4 +3,4 @@ FROM openjdk:11
 COPY target/*.jar app.jar
 EXPOSE 8080
 
-ENTRYPOINT exec java $JAVA_OPTS -DPOSTGRESQL_HOST=${POSTGRESQL_HOST} -DPOSTGRESQL_PORT=${POSTGRESQL_PORT} -DPOSTGRESQL_DATABASE_NAME=${POSTGRESQL_DATABASE_NAME} -DPOSTGRESQL_USER=${POSTGRESQL_USER} -DPOSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD} -Djava.security.egd==file:/dev/./urandom -jar /app.jar
+ENTRYPOINT exec java -Djava.security.egd==file:/dev/./urandom -jar /app.jar

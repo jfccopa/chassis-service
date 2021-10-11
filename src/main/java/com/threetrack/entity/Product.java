@@ -14,7 +14,7 @@ public class Product extends GenericEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "i_product_id")
-	protected Integer id;
+	protected Integer productId;
 
 	@Column(name = "v_name")
 	protected String name;
@@ -43,14 +43,19 @@ public class Product extends GenericEntity{
 	@Column(name = "i_organization_id")
 	protected Integer organizationId;
 
-	public Product(){}
-
-	public Integer getId() {
-		return this.id;
+	public Product(){
 	}
 
-	public void setId(Integer productId) {
-		this.id = productId;
+	public Product(Integer productId){
+		this.productId = productId;
+	}
+
+	public Integer getProductId() {
+		return this.productId;
+	}
+
+	public void setProductId(Integer productId) {
+		this.productId = productId;
 	}
 
 	public String getName() {

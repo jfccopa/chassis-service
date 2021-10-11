@@ -1,32 +1,36 @@
 package com.threetrack.repository.postgress;
 
+import com.threetrack.entity.GenericEntity;
 import com.threetrack.repository.GenericDao;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.persistence.metamodel.EntityType;
 
-public abstract class GenericDaoJpa<T, Id extends Serializable> implements GenericDao<T, Id> {
+public abstract class GenericDaoJpa<T extends GenericEntity, I extends Serializable> implements GenericDao<T, I> {
 
-	private Class<T> entityType;
+	private Class<T> entityClass;
 
 	@SuppressWarnings("unchecked")
-	public GenericDaoJpa() {
-		this.entityType = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+	protected GenericDaoJpa() {
+		this.entityClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}
 
 	@Override
-	public T findById(Id id) {
-		EntityManagerFactory factoriaSession = JPAConnection.getJPAFactory();
-		EntityManager manager = factoriaSession.createEntityManager();
+	public T findById(I id) {
+		EntityManagerFactory factorySession = JPAConnection.getJPAFactory();
+		EntityManager manager = factorySession.createEntityManager();
 
 		try {
-			return manager.find(entityType, id);
+			return manager.find(entityClass, id);
 
-		} catch (Throwable ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 			throw ex;
 		} finally {
@@ -36,15 +40,15 @@ public abstract class GenericDaoJpa<T, Id extends Serializable> implements Gener
 
 	@Override
 	public List<T> list() {
-		EntityManagerFactory factoriaSession = JPAConnection.getJPAFactory();
-		EntityManager manager = factoriaSession.createEntityManager();
+		EntityManagerFactory factorySession = JPAConnection.getJPAFactory();
+		EntityManager manager = factorySession.createEntityManager();
 
 		try {
-			String sql = "select e from " + entityType.getName() + " e where e.deleted=false";
-			TypedQuery<T> query = manager.createQuery(sql, entityType);
+			String sql = String.format("select o from %s o where o.deleted=false", entityClass.getName());
+			TypedQuery<T> query = manager.createQuery(sql, entityClass);
 			return query.getResultList();
 
-		} catch (Throwable ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 			throw ex;
 		} finally {
@@ -53,16 +57,18 @@ public abstract class GenericDaoJpa<T, Id extends Serializable> implements Gener
 	}
 
 	@Override
-	public void add(T entity) {
-		EntityManagerFactory factoriaSession = JPAConnection.getJPAFactory();
-		EntityManager manager = factoriaSession.createEntityManager();
+	public void add(T entity, Integer userId) {
+		EntityManagerFactory factorySession = JPAConnection.getJPAFactory();
+		EntityManager manager = factorySession.createEntityManager();
 		EntityTransaction tx = manager.getTransaction();
 		try {
+
 			tx.begin();
+			entity.prepareCreate(userId);
 			manager.persist(entity);
 			tx.commit();
 
-		} catch (Throwable ex) {
+		} catch (Exception ex) {
 			tx.rollback();
 			ex.printStackTrace();
 			throw ex;
@@ -72,16 +78,18 @@ public abstract class GenericDaoJpa<T, Id extends Serializable> implements Gener
 	}
 
 	@Override
-	public void update(T entity) {
-		EntityManagerFactory factoriaSession = JPAConnection.getJPAFactory();
-		EntityManager manager = factoriaSession.createEntityManager();
+	public void update(T entity, Integer userId) {
+		EntityManagerFactory factorySession = JPAConnection.getJPAFactory();
+		EntityManager manager = factorySession.createEntityManager();
 		EntityTransaction tx = manager.getTransaction();
 		try {
+
 			tx.begin();
+			entity.prepareUpdate(userId);
 			manager.merge(entity);
 			tx.commit();
 
-		} catch (Throwable ex) {
+		} catch (Exception ex) {
 			tx.rollback();
 			ex.printStackTrace();
 			throw ex;
@@ -91,21 +99,29 @@ public abstract class GenericDaoJpa<T, Id extends Serializable> implements Gener
 	}
 
 	@Override
-	public void delete(Id id) {
-		EntityManagerFactory factoriaSession = JPAConnection.getJPAFactory();
-		EntityManager manager = factoriaSession.createEntityManager();
+	public void delete(I id, Integer userId) {
+		EntityManagerFactory factorySession = JPAConnection.getJPAFactory();
+		EntityManager manager = factorySession.createEntityManager();
 		EntityTransaction tx = manager.getTransaction();
 		try {
 
-			String sql = "update  " + entityType.getName() + " p set p.deleted=true where p.id=?";
-			TypedQuery<T> query = manager.createQuery(sql, entityType);
+			final EntityType<?> entityType = manager.getMetamodel().entity(entityClass);
+			String nameId = entityType.getId(entityType.getIdType().getJavaType()).getName();
+
+			String sql =
+			    String.format("update %s set deleted=?2, updateId=?3, updateDate=?4 where %s=?1", entityClass.getName(), nameId);
+
+			Query query = manager.createQuery(sql);
 			query.setParameter(1, id);
+			query.setParameter(2, true);
+			query.setParameter(3, userId);
+			query.setParameter(4, new Date());
 
 			tx.begin();
 			query.executeUpdate();
 			tx.commit();
 
-		} catch (Throwable ex) {
+		} catch (Exception ex) {
 			tx.rollback();
 			ex.printStackTrace();
 			throw ex;
@@ -115,16 +131,16 @@ public abstract class GenericDaoJpa<T, Id extends Serializable> implements Gener
 	}
 
 	@Override
-	public void delete(T entity) {
-		EntityManagerFactory factoriaSession = JPAConnection.getJPAFactory();
-		EntityManager manager = factoriaSession.createEntityManager();
+	public void deleteAbsolute(T entity) {
+		EntityManagerFactory factorySession = JPAConnection.getJPAFactory();
+		EntityManager manager = factorySession.createEntityManager();
 		EntityTransaction tx = manager.getTransaction();
 		try {
 			tx.begin();
 			manager.remove(manager.merge(entity));
 			tx.commit();
 
-		} catch (Throwable ex) {
+		} catch (Exception ex) {
 			tx.rollback();
 			ex.printStackTrace();
 			throw ex;

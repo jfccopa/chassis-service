@@ -61,9 +61,19 @@ public class GenericEntity {
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
 	}
-	
+
 	public boolean getDeleted() {
 		return this.deleted;
 	}
-	
+
+	public void prepareUpdate(Integer updateId) {
+		this.setUpdateId(updateId);
+		this.setUpdateDate(new Date());
+	}
+
+	public void prepareCreate(Integer createId) {
+		this.setCreateId(createId);
+		this.setCreateDate(new Date());
+		this.setDeleted(false);
+	}
 }

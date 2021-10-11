@@ -2,11 +2,6 @@ package com.threetrack.actuator;
 
 import com.threetrack.entity.Product;
 import com.threetrack.repository.ProductDao;
-import com.threetrack.repository.postgress.ProductDaoJpa;
-
-import java.util.Date;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +14,6 @@ import org.springframework.stereotype.Component;
 public class Actuator {
 
 	private static Logger logger = LoggerFactory.getLogger(Actuator.class);
-
-	private static Map<String, Integer> healthTable = new ConcurrentHashMap<>();
 
 	@Autowired
 	private ProductDao productDao;
@@ -35,11 +28,9 @@ public class Actuator {
 		logger.info("monitoring >>>>");
 
 		for (Product p : productDao.list()) {
-			logger.info(p.getId() + " " + p.getName() + " " + p.getCreateDate());
+			String logProduct = String.format(
+				"%s %s %s %s %d", p.getProductId(), p.getName(), p.getCreateDate(), p.getUpdateDate(), p.getQuantity());
+			logger.info(logProduct);
 		}
-	}
-
-	public static void appendUpdate(String account, Integer credits) {
-		Actuator.healthTable.put(account, credits);
 	}
 }
