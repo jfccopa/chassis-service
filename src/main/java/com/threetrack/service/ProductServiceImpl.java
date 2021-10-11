@@ -1,22 +1,19 @@
-package com.threetrack.service.seller;
+package com.threetrack.service;
 
 import com.threetrack.entity.Product;
-import com.threetrack.repository.ProductDao;
+import com.threetrack.repository.dao.ProductDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class ProductService {
+public class ProductServiceImpl implements ProductService {
+
     @Autowired
     private ProductDao productDao;
-    private List<Product> products = new ArrayList<>(Arrays.asList(
-    ));
 
     public List<Product> getAllProducts(){
         return productDao.list();

@@ -1,10 +1,10 @@
 package com.threetrack.entity;
 
-import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import com.threetrack.utils.DateUtils;
 
 @MappedSuperclass
 public class GenericEntity {
@@ -68,12 +68,12 @@ public class GenericEntity {
 
 	public void prepareUpdate(Integer updateId) {
 		this.setUpdateId(updateId);
-		this.setUpdateDate(new Date());
+		this.setUpdateDate(DateUtils.getCurrentDate());
 	}
 
 	public void prepareCreate(Integer createId) {
 		this.setCreateId(createId);
-		this.setCreateDate(new Date());
+		this.setCreateDate(DateUtils.getCurrentDate());
 		this.setDeleted(false);
 	}
 }
