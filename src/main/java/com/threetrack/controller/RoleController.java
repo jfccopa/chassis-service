@@ -1,8 +1,9 @@
 package com.threetrack.controller;
 
+import com.threetrack.dto.RoleRequestDto;
 import com.threetrack.dto.ResponseDto;
-import com.threetrack.entity.Product;
-import com.threetrack.service.ProductServiceImpl;
+import com.threetrack.entity.Role;
+import com.threetrack.service.RoleService;
 import com.threetrack.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,33 +11,33 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/products")
-public class ProductController {
+@RequestMapping("/roles")
+public class RoleController {
 
     @Autowired
-    private ProductServiceImpl productServiceImpl;
+    private RoleService roleService;
 
     @GetMapping
-    public ResponseDto<List<Product>> getAllProducts(){
-        ResponseDto<List<Product>> response= new ResponseDto<>();
-        response.setData(productServiceImpl.getAllProducts());
+    public ResponseDto<List<Role>> getAllRoles(){
+        ResponseDto<List<Role>> response= new ResponseDto<>();
+        response.setData(roleService.getAllRoles());
         response.setSuccess(true);
         return response;
     }
 
-
     @GetMapping("/{id}")
-    public ResponseDto<Product> findProduct(@PathVariable(value = "id") Integer productId){
-        ResponseDto<Product> response = new ResponseDto<>();
-        response.setData(productServiceImpl.getProductId(productId));
+    public ResponseDto<Role> findRoles(@PathVariable(value = "id") Integer id){
+        ResponseDto<Role> response = new ResponseDto<>();
+        response.setData(roleService.getRoleId(id));
         response.setSuccess(true);
         return response;
     }
 
     @PostMapping
-    public ResponseDto<Product> addProduct(@RequestBody Product product){
-        ResponseDto<Product> response= new ResponseDto<>();
-        if(productServiceImpl.addProduct(product)==true){
+    public ResponseDto addRole(@RequestBody RoleRequestDto roleRequestDto){
+        ResponseDto<Role> response= new ResponseDto<>();
+
+        if(roleService.addRol(roleRequestDto)){
             response.setMessage(Constants.RESPONSE_CREATE);
             response.setSuccess(true);
             return response;
@@ -47,10 +48,10 @@ public class ProductController {
     }
 
     @PutMapping
-    public ResponseDto<Product> updateProduct(@RequestBody Product product){
+    public ResponseDto<Role> updateRole(@RequestBody RoleRequestDto roleRequestDto){
 
-        ResponseDto<Product> response= new ResponseDto<>();
-        if(productServiceImpl.upProduct(product)==true){
+        ResponseDto<Role> response= new ResponseDto<>();
+        if(roleService.upRol(roleRequestDto)){
             response.setMessage(Constants.RESPONSE_UPDATE);
             response.setSuccess(true);
             return response;
@@ -62,9 +63,9 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseDto<Product> deleteProduct(@PathVariable(value = "id") Integer productId){
-        ResponseDto<Product> response= new ResponseDto<>();
-        if(productServiceImpl.deleteProduct(productId)){
+    public ResponseDto<Role> deleteRole(@PathVariable(value = "id") Integer id){
+        ResponseDto<Role> response= new ResponseDto<>();
+        if(roleService.deleteRol(id)){
             response.setMessage(Constants.RESPONSE_DELETE);
             response.setSuccess(true);
             return response;

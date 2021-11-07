@@ -4,71 +4,45 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import com.threetrack.utils.DateUtils;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.threetrack.utils.DateUtils;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.Date;
+
+@Getter
+@Setter
 @MappedSuperclass
 public class GenericEntity {
 
+	@JsonIgnore
 	@Column(name = "t_create_date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createDate;
 
+	@JsonIgnore
 	@Column(name = "i_create_id")
 	private Integer createId;
 
+	@JsonIgnore
 	@Column(name = "t_update_date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date updateDate;
 
+	@JsonIgnore
 	@Column(name = "i_update_id")
 	private Integer updateId;
 
+	@JsonIgnore
 	@Column(name = "b_deleted")
 	private boolean deleted;
-
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
-
-	public Date getCreateDate() {
-		return this.createDate;
-	}
-
-	public void setCreateId(Integer createId) {
-		this.createId = createId;
-	}
-
-	public Integer getCreateId() {
-		return this.createId;
-	}
-
-	public void setUpdateDate(Date updateDate) {
-		this.updateDate = updateDate;
-	}
-
-	public Date getUpdateDate() {
-		return this.updateDate;
-	}
-
-	public void setUpdateId(Integer updateId) {
-		this.updateId = updateId;
-	}
-
-	public Integer getUpdateId() {
-		return this.updateId;
-	}
-
-	public void setDeleted(boolean deleted) {
-		this.deleted = deleted;
-	}
-
-	public boolean getDeleted() {
-		return this.deleted;
-	}
 
 	public void prepareUpdate(Integer updateId) {
 		this.setUpdateId(updateId);
 		this.setUpdateDate(DateUtils.getCurrentDate());
+		this.setDeleted(false);
 	}
 
 	public void prepareCreate(Integer createId) {

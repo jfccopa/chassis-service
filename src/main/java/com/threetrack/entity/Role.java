@@ -1,10 +1,9 @@
 package com.threetrack.entity;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+@Entity
+@Table(name = "ad_role")
 public class Role extends GenericEntity{
 
     @Id

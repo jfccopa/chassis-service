@@ -2,14 +2,13 @@ package com.threetrack.dto;
 
 import org.springframework.data.domain.Page;
 
-public class Response<T> {
+public class ResponseDto<T> {
 
     private T data;
     private boolean success;
     private String message;
-    private Page page;
 
-    public Response() {
+    public ResponseDto() {
         this.success=false;
     }
 
@@ -27,14 +26,6 @@ public class Response<T> {
 
     public void setSuccess(boolean success) {
         this.success = success;
-    }
-
-    public Page getPage() {
-        return page;
-    }
-
-    public void setPage(Page page) {
-        this.page = page;
     }
 
     public String getMessage() {

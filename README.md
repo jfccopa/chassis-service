@@ -31,3 +31,8 @@ make stop
 ```
 make down fast-install up
 ```
+
+# Api Documentation
+```
+http://localhost:80/swagger-ui.html
+```

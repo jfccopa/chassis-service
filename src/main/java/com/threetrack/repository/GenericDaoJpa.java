@@ -2,6 +2,7 @@ package com.threetrack.repository;
 
 import com.threetrack.entity.GenericEntity;
 import com.threetrack.repository.config.JPAConnection;
+import com.threetrack.utils.DateUtils;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
