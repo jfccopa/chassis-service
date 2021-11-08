@@ -2,7 +2,7 @@ package com.threetrack.controller;
 
 import com.threetrack.dto.RoleRequestDto;
 import com.threetrack.dto.ResponseDto;
-import com.threetrack.entity.Role;
+import com.threetrack.dto.RoleResponseDto;
 import com.threetrack.service.RoleService;
 import com.threetrack.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,24 +18,24 @@ public class RoleController {
     private RoleService roleService;
 
     @GetMapping
-    public ResponseDto<List<Role>> getAllRoles(){
-        ResponseDto<List<Role>> response= new ResponseDto<>();
+    public ResponseDto<List<RoleResponseDto>> getAllRoles(){
+        ResponseDto<List<RoleResponseDto>> response= new ResponseDto<>();
         response.setData(roleService.getAllRoles());
         response.setSuccess(true);
         return response;
     }
 
     @GetMapping("/{id}")
-    public ResponseDto<Role> findRoles(@PathVariable(value = "id") Integer id){
-        ResponseDto<Role> response = new ResponseDto<>();
+    public ResponseDto<RoleResponseDto> findRoles(@PathVariable(value = "id") Integer id){
+        ResponseDto<RoleResponseDto> response = new ResponseDto<>();
         response.setData(roleService.getRoleId(id));
         response.setSuccess(true);
         return response;
     }
 
     @PostMapping
-    public ResponseDto addRole(@RequestBody RoleRequestDto roleRequestDto){
-        ResponseDto<Role> response= new ResponseDto<>();
+    public ResponseDto<RoleResponseDto> addRole(@RequestBody RoleRequestDto roleRequestDto){
+        ResponseDto<RoleResponseDto> response= new ResponseDto<>();
 
         if(roleService.addRol(roleRequestDto)){
             response.setMessage(Constants.RESPONSE_CREATE);
@@ -48,9 +48,9 @@ public class RoleController {
     }
 
     @PutMapping
-    public ResponseDto<Role> updateRole(@RequestBody RoleRequestDto roleRequestDto){
+    public ResponseDto<RoleResponseDto> updateRole(@RequestBody RoleRequestDto roleRequestDto){
 
-        ResponseDto<Role> response= new ResponseDto<>();
+        ResponseDto<RoleResponseDto> response= new ResponseDto<>();
         if(roleService.upRol(roleRequestDto)){
             response.setMessage(Constants.RESPONSE_UPDATE);
             response.setSuccess(true);
@@ -63,8 +63,8 @@ public class RoleController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseDto<Role> deleteRole(@PathVariable(value = "id") Integer id){
-        ResponseDto<Role> response= new ResponseDto<>();
+    public ResponseDto<RoleResponseDto> deleteRole(@PathVariable(value = "id") Integer id){
+        ResponseDto<RoleResponseDto> response= new ResponseDto<>();
         if(roleService.deleteRol(id)){
             response.setMessage(Constants.RESPONSE_DELETE);
             response.setSuccess(true);

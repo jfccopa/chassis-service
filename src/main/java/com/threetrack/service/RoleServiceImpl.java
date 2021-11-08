@@ -1,6 +1,7 @@
 package com.threetrack.service;
 
 import com.threetrack.dto.RoleRequestDto;
+import com.threetrack.dto.RoleResponseDto;
 import com.threetrack.entity.Role;
 import com.threetrack.repository.dao.RoleDao;
 import com.threetrack.utils.Constants;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Service
 public class RoleServiceImpl implements RoleService{
@@ -19,13 +21,18 @@ public class RoleServiceImpl implements RoleService{
     private RoleDao roleDao;
 
     @Override
-    public List<Role> getAllRoles() {
-        return roleDao.list();
+    public List<RoleResponseDto> getAllRoles() {
+        return roleDao.list().stream()
+                .map(role -> new RoleResponseDto(role.getId(),role.getName(),role.getCode(),role.getState()) )
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Role getRoleId(Integer id) {
-        return roleDao.findById(id);
+    public RoleResponseDto getRoleId(Integer id) {
+        Role role=roleDao.findById(id);
+        if(role!=null)
+            return  new RoleResponseDto(role.getId(),role.getName(),role.getCode(),role.getState());
+        return null;
     }
 
     @Override
