@@ -2,11 +2,11 @@ package com.threetrack.service;
 
 import com.threetrack.entity.Product;
 import com.threetrack.repository.dao.ProductDao;
+import com.threetrack.utils.DateUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -27,7 +27,7 @@ public class ProductServiceImpl implements ProductService {
 
         try{
             product.setState('A');
-            product.setCreateDate(Timestamp.from(Instant.now()));
+            product.setCreateDate(DateUtils.getCurrentDate());
             product.setDeleted(false);
 
             productDao.add(product, 0);
@@ -42,7 +42,6 @@ public class ProductServiceImpl implements ProductService {
     public boolean upProduct(Product product){
 
         try{
-            product.setUpdateDate(Timestamp.from(Instant.now()));
             productDao.update(product, 0);
 
             return true;

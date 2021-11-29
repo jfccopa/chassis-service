@@ -7,6 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Entity
 @Table(name = "se_product")
 public class Product extends GenericEntity{
@@ -49,85 +54,4 @@ public class Product extends GenericEntity{
 	public Product(Integer productId){
 		this.productId = productId;
 	}
-
-	public Integer getProductId() {
-		return this.productId;
-	}
-
-	public void setProductId(Integer productId) {
-		this.productId = productId;
-	}
-
-	public String getName() {
-		return this.name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getDescription(){
-		return this.description;
-	}
-
-	public void setDescription(String description){
-		this.description = description;
-	}
-
-	public String getSerialNumber(){
-		return this.serialNumber;
-	}
-
-	public void setSerialNumber(String serialNumber){
-		this.serialNumber = serialNumber;
-	}
-
-	public Integer getQuantity(){
-		return this.quantity;
-	}
-
-	public void setQuantity(Integer quantity){
-		this.quantity = quantity;
-	}
-
-	public Double getPrice(){
-		return this.price;
-	}
-
-	public void setPrice(Double price){
-		this.price = price;
-	}
-
-	public Double getWeight(){
-		return this.weight;
-	}
-
-	public void setWeight(Double weight){
-		this.weight = weight;
-	}
-
-	public Double getVolume(){
-		return this.volume;
-	}
-
-	public void setVolume(Double volume){
-		this.volume = volume;
-	}
-
-	public Character getState(){
-		return this.state;
-	}
-
-	public void setState(Character state){
-		this.state = state;
-	}
-
-	public Integer getOrganizationId(){
-		return this.organizationId;
-	}
-
-	public void setOrganizationId(Integer organizationId){
-		this.organizationId = organizationId;
-	}
-
 }
