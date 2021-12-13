@@ -27,7 +27,7 @@ CREATE  TABLE ad_organization (
 	t_update_date        timestamp   ,
 	i_update_id          integer   ,
 	b_deleted            boolean DEFAULT false NOT NULL ,
-	CONSTRAINT pk_ad_organitation_i_id PRIMARY KEY ( i_organization_id )
+	CONSTRAINT pk_ad_organization_i_id PRIMARY KEY ( i_organization_id )
  );
 
 CREATE  TABLE ad_role ( 
@@ -54,7 +54,7 @@ CREATE  TABLE ad_user (
 	v_password           varchar(64)  NOT NULL ,
 	c_state              char(1)  NOT NULL ,
 	i_person_id          integer   ,
-	i_organitation_id    integer   ,
+	i_organization_id    integer   ,
 	t_create_date        timestamp  NOT NULL ,
 	i_create_id          integer  NOT NULL ,
 	t_update_date        timestamp   ,
@@ -349,7 +349,7 @@ ALTER TABLE ad_role_function ADD CONSTRAINT fk_ad_role_function_ad_role FOREIGN 
 
 ALTER TABLE ad_role_function ADD CONSTRAINT fk_ad_role_function FOREIGN KEY ( i_function_id ) REFERENCES ad_function( i_function_id );
 
-ALTER TABLE ad_user ADD CONSTRAINT fk_ad_user_ad_organitation FOREIGN KEY ( i_organitation_id ) REFERENCES ad_organization( i_organization_id );
+ALTER TABLE ad_user ADD CONSTRAINT fk_ad_user_ad_organization FOREIGN KEY ( i_organization_id ) REFERENCES ad_organization( i_organization_id );
 
 ALTER TABLE ad_user_function ADD CONSTRAINT fk_ad_user_function_ad_user FOREIGN KEY ( i_user_id ) REFERENCES ad_user( i_user_id );
 

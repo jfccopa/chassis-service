@@ -37,7 +37,7 @@ public class RoleController {
     public ResponseDto<RoleResponseDto> addRole(@RequestBody RoleRequestDto roleRequestDto){
         ResponseDto<RoleResponseDto> response= new ResponseDto<>();
 
-        if(roleService.addRol(roleRequestDto)){
+        if(roleService.addRole(roleRequestDto)){
             response.setMessage(Constants.RESPONSE_CREATE);
             response.setSuccess(true);
             return response;
@@ -51,7 +51,7 @@ public class RoleController {
     public ResponseDto<RoleResponseDto> updateRole(@RequestBody RoleRequestDto roleRequestDto){
 
         ResponseDto<RoleResponseDto> response= new ResponseDto<>();
-        if(roleService.upRol(roleRequestDto)){
+        if(roleService.upRole(roleRequestDto)){
             response.setMessage(Constants.RESPONSE_UPDATE);
             response.setSuccess(true);
             return response;
@@ -65,7 +65,7 @@ public class RoleController {
     @DeleteMapping("/{id}")
     public ResponseDto<RoleResponseDto> deleteRole(@PathVariable(value = "id") Integer id){
         ResponseDto<RoleResponseDto> response= new ResponseDto<>();
-        if(roleService.deleteRol(id)){
+        if(roleService.deleteRole(id)){
             response.setMessage(Constants.RESPONSE_DELETE);
             response.setSuccess(true);
             return response;

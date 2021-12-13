@@ -1,7 +1,5 @@
 package com.threetrack.dto;
 
-import org.springframework.data.domain.Page;
-
 public class ResponseDto<T> {
 
     private T data;

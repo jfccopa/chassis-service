@@ -6,7 +6,6 @@ import com.threetrack.utils.DateUtils;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -117,7 +116,7 @@ public abstract class GenericDaoJpa<T extends GenericEntity, I extends Serializa
 			query.setParameter(1, id);
 			query.setParameter(2, true);
 			query.setParameter(3, userId);
-			query.setParameter(4, new Date());
+			query.setParameter(4, DateUtils.getCurrentDate());
 
 			tx.begin();
 			query.executeUpdate();

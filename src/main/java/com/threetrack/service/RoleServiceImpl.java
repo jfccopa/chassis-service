@@ -36,7 +36,7 @@ public class RoleServiceImpl implements RoleService{
     }
 
     @Override
-    public boolean addRol(RoleRequestDto dto) {
+    public boolean addRole(RoleRequestDto dto) {
         try {
             Role role = new Role();
             role.setName(dto.getName());
@@ -52,7 +52,7 @@ public class RoleServiceImpl implements RoleService{
     }
 
     @Override
-    public boolean upRol(RoleRequestDto object) {
+    public boolean upRole(RoleRequestDto object) {
         try {
             Role role = roleDao.findById(object.getId());
             role.setState(object.getState());
@@ -67,7 +67,7 @@ public class RoleServiceImpl implements RoleService{
     }
 
     @Override
-    public boolean deleteRol(Integer id) {
+    public boolean deleteRole(Integer id) {
         try{
             roleDao.delete(id, 0);
             return true;
