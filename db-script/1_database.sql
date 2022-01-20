@@ -68,11 +68,12 @@ CREATE  TABLE ad_user_function (
 	i_function_id        integer   
  );
 
-CREATE  TABLE db_login ( 
+CREATE  TABLE ad_login ( 
 	i_login_id           serial  NOT NULL ,
-	v_username           varchar(32)   ,
-	c_state              char(1)  NOT NULL ,
-	CONSTRAINT pk_db_login_i_id PRIMARY KEY ( i_login_id )
+	i_user_id            integer NOT NULL ,
+	t_login_date         timestamp NOT NULL ,
+	t_logout_date        timestamp,
+	CONSTRAINT pk_ad_login_i_id PRIMARY KEY ( i_login_id )
  );
 
 CREATE  TABLE de_driver ( 

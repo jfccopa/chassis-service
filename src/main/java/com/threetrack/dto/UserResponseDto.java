@@ -13,7 +13,7 @@ public class UserResponseDto {
     private Integer id;
     private String name;
     private String password;
-    private String state;
+    private char state;
     private Integer personId;
     private Integer organizationId;
 

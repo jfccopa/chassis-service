@@ -11,5 +11,5 @@ public class RoleRequestDto {
     private Integer id;
     private String name;
     private String code;
-    private String state;
+    private char state;
 }

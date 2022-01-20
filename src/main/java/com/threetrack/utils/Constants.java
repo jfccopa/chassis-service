@@ -2,7 +2,7 @@ package com.threetrack.utils;
 
 public class Constants {
 
-    public static final String STATE_ACTIVO = "A";
+    public static final char STATE_ACTIVO = 'A';
 
     public static final String RESPONSE_CREATE           ="Creado satisfactoriamente";
     public static final String RESPONSE_DELETE           ="Eliminado satisfactoriamente";

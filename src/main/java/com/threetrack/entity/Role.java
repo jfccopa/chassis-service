@@ -22,8 +22,8 @@ public class Role extends GenericEntity{
     @Column(name="ad_code",length = 8)
     private String code;
 
-    @Column(name="c_state",length = 1)
-    private String state;
+    @Column(name="c_state")
+    private char state;
 
     public Role() {
     }

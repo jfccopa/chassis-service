@@ -31,6 +31,27 @@ make stop
 ```
 make down fast-install up
 ```
+## Docker commands
+
+### Logs of a docker 
+```
+docker logs -f <docker_name>
+```
+
+### Enter bash container, console 
+```
+docker exec -it <docker_name> /bin/sh
+```
+
+### Enter DB with bash 
+```
+psql -U <user_name> <db_name> 
+psql -U 3track threetrack_db
+```
+### Query DB example 
+```
+SELECT * FROM AD_LOGIN;
+```
 
 # Api Documentation
 ```
