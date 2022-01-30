@@ -9,6 +9,6 @@ public interface GenericDao<T extends GenericEntity, I extends Serializable> {
 	List<T> list();
 	void add(T entity, Integer userId);
 	void update(T entity, Integer userId);
-	void delete(I id, Integer userId);
+	boolean delete(I id, Integer userId);
 	void deleteAbsolute(T entity);
 }

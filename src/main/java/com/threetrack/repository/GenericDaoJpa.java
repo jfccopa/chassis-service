@@ -100,7 +100,7 @@ public abstract class GenericDaoJpa<T extends GenericEntity, I extends Serializa
 	}
 
 	@Override
-	public void delete(I id, Integer userId) {
+	public boolean delete(I id, Integer userId) {
 		EntityManagerFactory factorySession = JPAConnection.getJPAFactory();
 		EntityManager manager = factorySession.createEntityManager();
 		EntityTransaction tx = manager.getTransaction();
@@ -119,8 +119,9 @@ public abstract class GenericDaoJpa<T extends GenericEntity, I extends Serializa
 			query.setParameter(4, DateUtils.getCurrentDate());
 
 			tx.begin();
-			query.executeUpdate();
+			boolean result = query.executeUpdate() == 1;
 			tx.commit();
+			return result;
 
 		} catch (Exception ex) {
 			tx.rollback();

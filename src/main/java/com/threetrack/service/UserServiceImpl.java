@@ -45,6 +45,7 @@ public class UserServiceImpl implements UserService{
             user.setState(Constants.STATE_ACTIVO);
             user.setPersonId(dto.getPersonId());
             user.setOrganizationId(dto.getOrganizationId());
+            
             userDao.add(user,0);
             return  true;
         }catch (Exception e){
@@ -73,8 +74,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public boolean deleteUser(Integer id) {
         try{
-            userDao.delete(id, 0);
-            return true;
+            return userDao.delete(id, 0);
         }catch (Exception ex){
             return false;
         }

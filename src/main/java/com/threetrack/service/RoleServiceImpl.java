@@ -69,8 +69,7 @@ public class RoleServiceImpl implements RoleService{
     @Override
     public boolean deleteRole(Integer id) {
         try{
-            roleDao.delete(id, 0);
-            return true;
+            return roleDao.delete(id, 0);
         }catch (Exception ex){
             return false;
         }

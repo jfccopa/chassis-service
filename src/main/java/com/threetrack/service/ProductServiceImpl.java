@@ -54,9 +54,7 @@ public class ProductServiceImpl implements ProductService {
     public boolean deleteProduct(Integer productId){
 
         try{
-            productDao.delete(productId, 0);
-            return true;
-
+            return productDao.delete(productId, 0);      
         }catch (Exception ex){
             return false;
         }

@@ -9,6 +9,5 @@ public class Constants {
     public static final String RESPONSE_UPDATE           ="Actualizado satisfactoriamente";
     public static final String ERROR                     ="Error no controlado, consultar a Informatica";
     public static final String ERROR_DATABASE_CONNECTION ="Error establishing a database connection";
-
-
+    public static final String ERROR_NO_DATA             ="Registro no encontrado";   
 }
