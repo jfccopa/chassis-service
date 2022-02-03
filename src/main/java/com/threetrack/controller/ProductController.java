@@ -19,8 +19,15 @@ public class ProductController {
     @GetMapping
     public ResponseDto<List<Product>> getAllProducts(){
         ResponseDto<List<Product>> response= new ResponseDto<>();
-        response.setData(productServiceImpl.getAllProducts());
-        response.setSuccess(true);
+        try {
+            response.setData(productServiceImpl.getAllProducts());
+            response.setSuccess(true);
+            response.setMessage(Constants.PROCESSED_OK);    
+        } catch (Exception e) {
+            response.setSuccess(false);
+            response.setMessage(Constants.ERROR);
+        }
+        
         return response;
     }
 
@@ -28,50 +35,70 @@ public class ProductController {
     @GetMapping("/{id}")
     public ResponseDto<Product> findProduct(@PathVariable(value = "id") Integer productId){
         ResponseDto<Product> response = new ResponseDto<>();
-        response.setData(productServiceImpl.getProductId(productId));
-        response.setSuccess(true);
+        try {
+            Product product = productServiceImpl.getProductId(productId);
+            if(product != null){
+                response.setData(product);       
+                response.setMessage(Constants.PROCESSED_OK);
+            }else{
+                response.setMessage(Constants.ERROR_NO_DATA);
+            }
+            response.setSuccess(true);
+        } catch (Exception e) {
+            response.setSuccess(false);
+            response.setMessage(Constants.ERROR);
+        }
         return response;
     }
 
     @PostMapping
     public ResponseDto<Product> addProduct(@RequestBody Product product){
         ResponseDto<Product> response= new ResponseDto<>();
-        if(productServiceImpl.addProduct(product)==true){
-            response.setMessage(Constants.RESPONSE_CREATE);
+        try {
+            if(productServiceImpl.addProduct(product)){
+                response.setMessage(Constants.RESPONSE_CREATE);
+            }else{
+                response.setMessage(Constants.ERROR_CREATE);
+            }
             response.setSuccess(true);
-            return response;
-        }else{
-            response.setSuccess(true);
-            return response;
+        } catch (Exception e) {
+            response.setSuccess(false);
+            response.setMessage(Constants.ERROR);
         }
+        return response;
     }
 
     @PutMapping
     public ResponseDto<Product> updateProduct(@RequestBody Product product){
-
         ResponseDto<Product> response= new ResponseDto<>();
-        if(productServiceImpl.upProduct(product)==true){
-            response.setMessage(Constants.RESPONSE_UPDATE);
+        try {
+            if(productServiceImpl.upProduct(product)){
+                response.setMessage(Constants.RESPONSE_UPDATE);
+            }else{
+                response.setMessage(Constants.ERROR_NO_DATA);
+            }
             response.setSuccess(true);
-            return response;
-        }else{
+        } catch (Exception e) {
+            response.setSuccess(false);
             response.setMessage(Constants.ERROR);
-            return response;
         }
-
+        return response;
     }
 
     @DeleteMapping("/{id}")
     public ResponseDto<Product> deleteProduct(@PathVariable(value = "id") Integer productId){
         ResponseDto<Product> response= new ResponseDto<>();
-        if(productServiceImpl.deleteProduct(productId)){
-            response.setMessage(Constants.RESPONSE_DELETE);
+        try {
+            if(productServiceImpl.deleteProduct(productId)){
+                response.setMessage(Constants.RESPONSE_DELETE);
+            }else{
+                response.setMessage(Constants.ERROR_NO_DATA);
+            }
             response.setSuccess(true);
-            return response;
-        }else{
+        } catch (Exception e) {
+            response.setSuccess(false);
             response.setMessage(Constants.ERROR);
-            return response;
         }
-
+        return response;
     }
 }

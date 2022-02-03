@@ -20,59 +20,86 @@ public class UserController {
     @GetMapping
     public ResponseDto<List<UserResponseDto>> getAllUsers(){
         ResponseDto<List<UserResponseDto>> response= new ResponseDto<>();
-        response.setData(userService.getAllUsers());
-        response.setSuccess(true);
+        try {
+            response.setData(userService.getAllUsers());
+            response.setSuccess(true);
+            response.setMessage(Constants.PROCESSED_OK);    
+        } catch (Exception e) {
+            response.setSuccess(false);
+            response.setMessage(Constants.ERROR);
+        }
+        
         return response;
     }
 
     @GetMapping("/{id}")
     public ResponseDto<UserResponseDto> findUsers(@PathVariable(value = "id") Integer id){
         ResponseDto<UserResponseDto> response = new ResponseDto<>();
-        response.setData(userService.getUserId(id));
-        response.setSuccess(true);
+        try {
+            UserResponseDto userResponseDto = userService.getUserId(id);
+            if(userResponseDto != null){
+                response.setData(userResponseDto);   
+                response.setMessage(Constants.PROCESSED_OK);
+            }else{
+                response.setMessage(Constants.ERROR_NO_DATA);
+            } 
+            response.setSuccess(true);
+        } catch (Exception e) {
+            response.setSuccess(false);
+            response.setMessage(Constants.ERROR);
+        }
+        
         return response;
     }
 
     @PostMapping
     public ResponseDto<UserResponseDto> addUser(@RequestBody UserRequestDto userRequestDto){
         ResponseDto<UserResponseDto> response= new ResponseDto<>();
-
-        if(userService.addUser(userRequestDto)){
-            response.setMessage(Constants.RESPONSE_CREATE);
+        try {
+            if(userService.addUser(userRequestDto)){
+                response.setMessage(Constants.RESPONSE_CREATE);
+            }else{
+                response.setMessage(Constants.ERROR_CREATE);
+            }    
             response.setSuccess(true);
-            return response;
-        }else{
-            response.setSuccess(true);
-            return response;
+        } catch (Exception e) {
+            response.setSuccess(false);
+            response.setMessage(Constants.ERROR);
         }
+        return response;
     }
 
     @PutMapping
     public ResponseDto<UserResponseDto> updateUser(@RequestBody UserRequestDto userRequestDto){
-
         ResponseDto<UserResponseDto> response= new ResponseDto<>();
-        if(userService.upUser(userRequestDto)){
-            response.setMessage(Constants.RESPONSE_UPDATE);
+        try {
+            if(userService.upUser(userRequestDto)){
+                response.setMessage(Constants.RESPONSE_UPDATE);
+            }else{
+                response.setMessage(Constants.ERROR_NO_DATA);
+            }
             response.setSuccess(true);
-            return response;
-        }else{
+        } catch (Exception e) {
+            response.setSuccess(false);
             response.setMessage(Constants.ERROR);
-            return response;
         }
-
+        return response;
     }
 
     @DeleteMapping("/{id}")
     public ResponseDto<UserResponseDto> deleteUser(@PathVariable(value = "id") Integer id){
         ResponseDto<UserResponseDto> response= new ResponseDto<>();
-        if(userService.deleteUser(id)){
-            response.setMessage(Constants.RESPONSE_DELETE);
+        try {
+            if(userService.deleteUser(id)){
+                response.setMessage(Constants.RESPONSE_DELETE);
+            }else{
+                response.setMessage(Constants.ERROR_NO_DATA);
+            }
             response.setSuccess(true);
-            return response;
-        }else{
+        } catch (Exception e) {
+            response.setSuccess(false);
             response.setMessage(Constants.ERROR);
-            return response;
         }
-
+        return response;
     }
 }

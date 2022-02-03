@@ -20,59 +20,87 @@ public class RoleController {
     @GetMapping
     public ResponseDto<List<RoleResponseDto>> getAllRoles(){
         ResponseDto<List<RoleResponseDto>> response= new ResponseDto<>();
-        response.setData(roleService.getAllRoles());
-        response.setSuccess(true);
+        try {
+            response.setData(roleService.getAllRoles());
+            response.setSuccess(true);
+            response.setMessage(Constants.PROCESSED_OK); 
+        } catch (Exception e) {
+            response.setSuccess(false);
+            response.setMessage(Constants.ERROR);
+        }
         return response;
     }
 
     @GetMapping("/{id}")
     public ResponseDto<RoleResponseDto> findRoles(@PathVariable(value = "id") Integer id){
         ResponseDto<RoleResponseDto> response = new ResponseDto<>();
-        response.setData(roleService.getRoleId(id));
-        response.setSuccess(true);
+        try {
+            RoleResponseDto roleResponseDto = roleService.getRoleId(id);
+            if(roleResponseDto != null){
+                response.setData(roleResponseDto);
+                response.setMessage(Constants.PROCESSED_OK);
+            }else{
+                response.setMessage(Constants.ERROR_NO_DATA);
+            }
+
+            response.setSuccess(true);    
+        } catch (Exception e) {
+            response.setSuccess(false);
+            response.setMessage(Constants.ERROR);
+        }
+        
         return response;
     }
 
     @PostMapping
     public ResponseDto<RoleResponseDto> addRole(@RequestBody RoleRequestDto roleRequestDto){
         ResponseDto<RoleResponseDto> response= new ResponseDto<>();
-
-        if(roleService.addRole(roleRequestDto)){
-            response.setMessage(Constants.RESPONSE_CREATE);
+        try {
+            if(roleService.addRole(roleRequestDto)){
+                response.setMessage(Constants.RESPONSE_CREATE);  
+            }else{
+                response.setMessage(Constants.ERROR_CREATE);
+            }    
             response.setSuccess(true);
-            return response;
-        }else{
-            response.setSuccess(true);
-            return response;
+        } catch (Exception e) {
+            response.setSuccess(false);
+            response.setMessage(Constants.ERROR);
         }
+        return response;
     }
 
     @PutMapping
     public ResponseDto<RoleResponseDto> updateRole(@RequestBody RoleRequestDto roleRequestDto){
-
         ResponseDto<RoleResponseDto> response= new ResponseDto<>();
-        if(roleService.upRole(roleRequestDto)){
-            response.setMessage(Constants.RESPONSE_UPDATE);
+        try {
+            if(roleService.upRole(roleRequestDto)){
+                response.setMessage(Constants.RESPONSE_UPDATE);
+            }else{
+                response.setMessage(Constants.ERROR_NO_DATA);
+            }   
             response.setSuccess(true);
-            return response;
-        }else{
+        } catch (Exception e) {
+            response.setSuccess(false);
             response.setMessage(Constants.ERROR);
-            return response;
         }
-
+        
+        return response;
     }
 
     @DeleteMapping("/{id}")
     public ResponseDto<RoleResponseDto> deleteRole(@PathVariable(value = "id") Integer id){
         ResponseDto<RoleResponseDto> response= new ResponseDto<>();
-        if(roleService.deleteRole(id)){
-            response.setMessage(Constants.RESPONSE_DELETE);
+        try {
+            if(roleService.deleteRole(id)){
+                response.setMessage(Constants.RESPONSE_DELETE);
+            }else{
+                response.setMessage(Constants.ERROR_NO_DATA);
+            }
             response.setSuccess(true);
-            return response;
-        }else{
+        } catch (Exception e) {
+            response.setSuccess(false);
             response.setMessage(Constants.ERROR);
-            return response;
         }
-
+        return response;
     }
 }

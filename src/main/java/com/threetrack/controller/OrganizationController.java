@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,9 +30,11 @@ public class OrganizationController {
         ResponseDto<List<OrganizationResponseDto>> response = new ResponseDto<>();
         try{            
             response.setData(organizationService.getAllOrganizations());
-            response.setSuccess(true);            
+            response.setSuccess(true);
+            response.setMessage(Constants.PROCESSED_OK);            
         }catch(Exception e){
-            response.setSuccess(false);            
+            response.setSuccess(false);
+            response.setMessage(Constants.ERROR);            
         }
         return response;
     }
@@ -43,12 +46,14 @@ public class OrganizationController {
             OrganizationResponseDto organizationResponseDto = organizationService.getOrganizationId(id);
             if (organizationResponseDto != null){ 
                 response.setData(organizationResponseDto);
+                response.setMessage(Constants.PROCESSED_OK);
             }else{
                 response.setMessage(Constants.ERROR_NO_DATA);
             }
             response.setSuccess(true);
         }catch(Exception e){
             response.setSuccess(false);
+            response.setMessage(Constants.ERROR);
         }
         return response;    
     }
@@ -59,12 +64,32 @@ public class OrganizationController {
         try{
             if(organizationService.addOrganization(organizationRequestDto)){
                 response.setMessage(Constants.RESPONSE_CREATE);
-                
+            }else{
+                response.setMessage(Constants.ERROR_CREATE);
             }
             response.setSuccess(true);
         }catch(Exception e){
             response.setSuccess(false);
+            response.setMessage(Constants.ERROR);
         }
+        return response;
+    }
+
+    @PutMapping
+    public ResponseDto<OrganizationResponseDto> updateRole(@RequestBody OrganizationRequestDto organizationRequestDto){
+        ResponseDto<OrganizationResponseDto> response= new ResponseDto<>();
+        try {
+            if(organizationService.upOrganization(organizationRequestDto)){
+                response.setMessage(Constants.RESPONSE_UPDATE);
+            }else{
+                response.setMessage(Constants.ERROR_NO_DATA);
+            }   
+            response.setSuccess(true);
+        } catch (Exception e) {
+            response.setSuccess(false);
+            response.setMessage(Constants.ERROR);
+        }
+        
         return response;
     }
 
@@ -79,7 +104,8 @@ public class OrganizationController {
             }
             response.setSuccess(true);
         }catch(Exception e){
-            response.setSuccess(false);            
+            response.setSuccess(false);
+            response.setMessage(Constants.ERROR);            
         }
         return response;
     }
